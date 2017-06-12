@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Timvelo</string>
+
+    <!-- Races screen -->
+    <string name="race_toolbar_title">Timvelo</string>
+    <string name="connection_error">Pas de connection internet</string>
+    <string name="race_empty">Pas de course</string>
+
+    <!-- Navigation -->
+    <string name="navigation_races">Courses</string>
+    <string name="navigation_pronos">Pronostiques</string>
+    <string name="navigation_classement">Classement</string>
+
+</resources>

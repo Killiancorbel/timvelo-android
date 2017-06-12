@@ -1,0 +1,107 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.+'
+    }
+}
+
+apply plugin: 'com.android.application'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'TimveloKey'
+            keyPassword 'Timvelo-cassiopee'
+            storeFile file('/Applications/MAMP/htdocs/Timvelo-android/keys/timvelo.jks')
+            storePassword 'Timvelo-android'
+        }
+    }
+    compileSdkVersion compileSdk
+    buildToolsVersion buildTools
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    defaultConfig {
+        applicationId "com.timvelo.app"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode 1
+        versionName '0.0.1'
+        vectorDrawables.useSupportLibrary = true
+        resConfigs "en", "fr"
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(TimveloSigning.storeFilePath)
+            storePassword TimveloSigning.storePassword
+            keyAlias TimveloSigning.keyAlias
+            keyPassword TimveloSigning.keyPassword
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            buildConfigField "String", "BASEURL", "\"http://localhost:8888/\""
+        }
+
+        debug {
+            minifyEnabled false
+            debuggable true
+            applicationIdSuffix '.debug'
+            versionNameSuffix '-DEBUG'
+            buildConfigField "String", "BASEURL", "\"http://localhost:8888/\""
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+    }
+}
+
+dependencies {
+    compile supportDependencies.appCompat
+    compile supportDependencies.vectorDrawable
+    compile supportDependencies.design
+    compile supportDependencies.recyclerView
+    compile supportDependencies.percent
+    compile supportDependencies.cardView
+    compile supportDependencies.customTabs
+    compile analytics
+    compile retrofitDependencies.retrofit
+    compile retrofitDependencies.adapterRxjava
+    compile retrofitDependencies.converterGson
+    compile okHttpDependencies.logging
+    compile gson
+    compile butterknifeDependencies.butterknife
+    annotationProcessor butterknifeDependencies.butterknifeCompiler
+    compile mosbyDependencies.mvpLce
+    compile rxDependencies.rxJava
+    compile rxDependencies.rxAndroid
+    compile rxPreferences
+    compile picasso
+    compile glide
+    compile timber
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') { transitive = true; }
+}
+
+//apply plugin: 'com.google.gms.google-services'

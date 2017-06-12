@@ -1,0 +1,8 @@
+ext {
+    TimveloSigning = [
+            storeFilePath: "../keys/timvelo.jks",
+            storePassword: "Timvelo-cassiopee",
+            keyAlias     : "TimveloKey",
+            keyPassword  : "Timvelo-cassiopee"
+    ]
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="margin_padding_size_nano">2dp</dimen>
+    <dimen name="margin_padding_size_micro">4dp</dimen>
+    <dimen name="margin_padding_size_small">8dp</dimen>
+    <dimen name="margin_padding_size_medium">16dp</dimen>
+    <dimen name="margin_padding_size_large">32dp</dimen>
+    <dimen name="margin_padding_size_extra_large">64dp</dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">10sp</dimen>
+</resources>
