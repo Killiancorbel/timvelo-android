@@ -10,6 +10,8 @@ import android.view.MenuItem;
 
 import com.timvelo.app.R;
 import com.timvelo.app.ui.base.BaseActivity;
+import com.timvelo.app.ui.calendar.CalendarFragment;
+import com.timvelo.app.ui.classement.ClassementFragment;
 import com.timvelo.app.ui.raceList.RaceFragment;
 
 import butterknife.BindView;
@@ -40,14 +42,18 @@ public class MainActivity extends BaseActivity {
                         fm.beginTransaction().replace(R.id.main_content, RaceFragment.newInstance())
                                 .commit();
                         break;
-                    case R.id.action_pronos:
+                    case R.id.action_calendrier:
+                        fm.beginTransaction().replace(R.id.main_content, CalendarFragment.newInstance())
+                                .commit();
                         break;
                     case R.id.action_classement:
+                        fm.beginTransaction().replace(R.id.main_content, ClassementFragment.newInstance())
+                                .commit();
                         break;
                     default:
                         return false;
                 }
-                return false;
+                return true;
             }
         });
 

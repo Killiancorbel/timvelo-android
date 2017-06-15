@@ -8,7 +8,8 @@
 
     <!-- Navigation -->
     <string name="navigation_races">Courses</string>
-    <string name="navigation_pronos">Pronostiques</string>
+    <string name="navigation_calendrier">Calendrier</string>
     <string name="navigation_classement">Classement</string>
+    <string name="classement_empty">Pas de classement</string>
 
 </resources>

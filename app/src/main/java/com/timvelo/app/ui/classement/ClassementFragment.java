@@ -1,8 +1,7 @@
-package com.timvelo.app.ui.raceList;
+package com.timvelo.app.ui.classement;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,10 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.timvelo.app.R;
-import com.timvelo.app.domain.models.Race;
+import com.timvelo.app.domain.models.Classement;
 import com.timvelo.app.ui.base.BaseLceFragment;
-import com.timvelo.app.ui.result.ResultFragment;
-import com.timvelo.app.widget.EndlessScrollListener;
 
 import org.json.JSONObject;
 
@@ -24,27 +21,24 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
-import timber.log.Timber;
 
 /**
- * Created by admin on 07/06/2017.
+ * Created by admin on 15/06/2017.
  */
 
-public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>, RaceView, RacePresenter>
-        implements RaceView, RaceAdapter.RaceViewHolder.OnRaceSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class ClassementFragment extends BaseLceFragment<RecyclerView, ArrayList<Classement>, ClassementView, ClassementPresenter>
+        implements ClassementView, ClassementAdapter.ClassementViewHolder.OnRaceSelectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.contentView) RecyclerView recyclerView;
-    @BindView(R.id.race_empty) TextView empty;
-    @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout refresh;
-    private RaceAdapter adapter;
-    private TimveloScrollListener scrollListener;
+    @BindView(R.id.classement_empty) TextView empty;
+    private ClassementAdapter adapter;
 
-    public static RaceFragment newInstance() {
+    public static ClassementFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        RaceFragment fragment = new RaceFragment();
+        ClassementFragment fragment = new ClassementFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,16 +51,13 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(R.string.race_toolbar_title);
-        refresh.setOnRefreshListener(this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new RaceAdapter(this, getActivity()));
-        scrollListener = new TimveloScrollListener(layoutManager);
-        recyclerView.addOnScrollListener(scrollListener);
+        recyclerView.setAdapter(new ClassementAdapter(this));
 
         if (null == adapter) {
-            adapter = new RaceAdapter(this, getActivity());
+            adapter = new ClassementAdapter(this);
             recyclerView.setAdapter(adapter);
             loadData(false);
         } else {
@@ -77,7 +68,7 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_race;
+        return R.layout.fragment_classement;
     }
 
     @Override
@@ -95,14 +86,13 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
     }
 
     @Override
-    public RacePresenter createPresenter() {
-        return new RacePresenter();
+    public ClassementPresenter createPresenter() {
+        return new ClassementPresenter();
     }
 
     @Override
-    public void setData(ArrayList<Race> data) {
-        refresh.setRefreshing(false);
-        adapter.addRace(data);
+    public void setData(ArrayList<Classement> data) {
+        adapter.addClassement(data);
         adapter.notifyDataSetChanged();
         if (adapter.getItemCount() == 0) {
             empty.setVisibility(View.VISIBLE);
@@ -113,35 +103,11 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        getPresenter().loadRaces(1, pullToRefresh);
+        getPresenter().loadClassement(pullToRefresh);
     }
 
     @Override
-    public void onRefresh() {
-        adapter.clear();
-        scrollListener.resetState();
-        loadData(true);
-    }
-
-    @Override
-    public void onRaceSelected(RaceAdapter.RaceViewHolder holder) {
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, ResultFragment.newInstance(holder.id))
-                .addToBackStack(null)
-                .commit();
-    }
-
-
-    private class TimveloScrollListener extends EndlessScrollListener {
-
-        TimveloScrollListener(LinearLayoutManager layoutManager) {
-            super(layoutManager);
-        }
-
-        @Override
-        public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-            Timber.d("Loading page " + page);
-            getPresenter().loadNextPage(page);
-        }
+    public void onRaceSelected(ClassementAdapter.ClassementViewHolder holder) {
+        // TODO - On classement selected
     }
 }

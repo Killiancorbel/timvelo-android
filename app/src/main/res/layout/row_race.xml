@@ -53,13 +53,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                tools:text="WT"
+                tools:text="WT - Classique"
                 />
             <TextView
                 android:id="@+id/race_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_gravity="bottom|right"
                 android:layout_weight="0"
                 tools:text="10/07"
                 />

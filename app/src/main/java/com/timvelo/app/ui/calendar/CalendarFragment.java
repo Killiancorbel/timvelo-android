@@ -1,4 +1,4 @@
-package com.timvelo.app.ui.raceList;
+package com.timvelo.app.ui.calendar;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.timvelo.app.R;
 import com.timvelo.app.domain.models.Race;
 import com.timvelo.app.ui.base.BaseLceFragment;
-import com.timvelo.app.ui.result.ResultFragment;
+import com.timvelo.app.ui.raceList.RaceAdapter;
 import com.timvelo.app.widget.EndlessScrollListener;
 
 import org.json.JSONObject;
@@ -27,24 +27,24 @@ import retrofit2.HttpException;
 import timber.log.Timber;
 
 /**
- * Created by admin on 07/06/2017.
+ * Created by admin on 15/06/2017.
  */
 
-public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>, RaceView, RacePresenter>
-        implements RaceView, RaceAdapter.RaceViewHolder.OnRaceSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class CalendarFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>, CalendarView, CalendarPresenter>
+        implements CalendarView, RaceAdapter.RaceViewHolder.OnRaceSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.contentView) RecyclerView recyclerView;
     @BindView(R.id.race_empty) TextView empty;
     @BindView(R.id.swipe_refresh_layout) SwipeRefreshLayout refresh;
     private RaceAdapter adapter;
-    private TimveloScrollListener scrollListener;
+    private CalendarFragment.TimveloScrollListener scrollListener;
 
-    public static RaceFragment newInstance() {
+    public static CalendarFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        RaceFragment fragment = new RaceFragment();
+        CalendarFragment fragment = new CalendarFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -76,8 +76,15 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
     }
 
     @Override
+    public void onRefresh() {
+        adapter.clear();
+        scrollListener.resetState();
+        loadData(true);
+    }
+
+    @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_race;
+        return R.layout.fragment_calendar;
     }
 
     @Override
@@ -95,8 +102,8 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
     }
 
     @Override
-    public RacePresenter createPresenter() {
-        return new RacePresenter();
+    public CalendarPresenter createPresenter() {
+        return new CalendarPresenter();
     }
 
     @Override
@@ -113,24 +120,13 @@ public class RaceFragment extends BaseLceFragment<RecyclerView, ArrayList<Race>,
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        getPresenter().loadRaces(1, pullToRefresh);
-    }
-
-    @Override
-    public void onRefresh() {
-        adapter.clear();
-        scrollListener.resetState();
-        loadData(true);
+        getPresenter().loadRaces(1, false);
     }
 
     @Override
     public void onRaceSelected(RaceAdapter.RaceViewHolder holder) {
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_content, ResultFragment.newInstance(holder.id))
-                .addToBackStack(null)
-                .commit();
+        // TODO - on race selected
     }
-
 
     private class TimveloScrollListener extends EndlessScrollListener {
 

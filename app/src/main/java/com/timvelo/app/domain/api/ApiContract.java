@@ -11,6 +11,8 @@ public class ApiContract {
     public interface Page {
         String RACES = "races";
         String RESULTS = "results/{id}";
+        String CALENDAR = "calendar";
+        String CLASSEMENT = "classement";
     }
     public interface Params {
         String ID = "id";

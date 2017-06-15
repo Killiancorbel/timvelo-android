@@ -9,9 +9,9 @@
         android:title="@string/navigation_races"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_pronos"
+        android:id="@+id/action_calendrier"
         android:icon="@drawable/item_prono_selector"
-        android:title="@string/navigation_pronos"
+        android:title="@string/navigation_calendrier"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_classement"

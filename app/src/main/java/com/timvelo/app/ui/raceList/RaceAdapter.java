@@ -12,7 +12,11 @@ import com.bumptech.glide.Glide;
 import com.timvelo.app.R;
 import com.timvelo.app.domain.models.Race;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,13 +32,13 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceAdapter.RaceViewHolder
     private final Context mcontext;
     private final float scale;
 
-    RaceAdapter(RaceViewHolder.OnRaceSelectedListener listener, Context context) {
+    public RaceAdapter(RaceViewHolder.OnRaceSelectedListener listener, Context context) {
         this.listener = listener;
         this.mcontext = context;
         scale = context.getResources().getDisplayMetrics().density;
     }
 
-    void addRace(ArrayList<Race> races) { this.races.addAll(races); }
+    public void addRace(ArrayList<Race> races) { this.races.addAll(races); }
 
     @Override
     public RaceAdapter.RaceViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,7 +46,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceAdapter.RaceViewHolder
         return new RaceViewHolder(v, listener);
     }
 
-    void clear() { races.clear(); }
+    public void clear() { races.clear(); }
 
     @Override
     public void onBindViewHolder(RaceAdapter.RaceViewHolder holder, int position) {
@@ -51,7 +55,14 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceAdapter.RaceViewHolder
         Glide.with(mcontext).load(race.getProfile().getSrc()).override((int) (32 * scale + 0.5f), (int) (32 * scale + 0.5f)).centerCrop().into(holder.profile);
         holder.title.setText(race.getName());
         holder.classification.setText(race.getClassification().getIdent());
-        holder.date.setText(race.getDate());
+        SimpleDateFormat dateParser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+02:00'", Locale.getDefault());
+        try {
+            Date date = dateParser.parse(race.getDate());
+            holder.date.setText(String.format(Locale.getDefault(), "%02d/%02d", date.getDate(), date.getMonth() + 1));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            holder.date.setText(race.getDate());
+        }
         holder.id = race.getId();
     }
 
@@ -60,7 +71,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceAdapter.RaceViewHolder
         return races.size();
     }
 
-    static class RaceViewHolder extends RecyclerView.ViewHolder {
+    public static class RaceViewHolder extends RecyclerView.ViewHolder {
         private final OnRaceSelectedListener listener;
         @BindView(R.id.race_flag) ImageView flag;
         @BindView(R.id.race_profile) ImageView profile;
@@ -76,7 +87,7 @@ public class RaceAdapter extends RecyclerView.Adapter<RaceAdapter.RaceViewHolder
             itemView.setOnClickListener(v -> listener.onRaceSelected(this));
         }
 
-        interface OnRaceSelectedListener {
+        public interface OnRaceSelectedListener {
             void onRaceSelected(RaceViewHolder holder);
         }
     }

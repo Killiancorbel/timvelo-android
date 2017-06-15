@@ -1,5 +1,6 @@
 package com.timvelo.app.domain.api;
 
+import com.timvelo.app.domain.models.Classement;
 import com.timvelo.app.domain.models.Race;
 import com.timvelo.app.domain.models.Result;
 
@@ -20,6 +21,11 @@ public interface ApiService {
     Observable<ArrayList<Race>> getRaces(@Query(ApiContract.Params.PAGE) int page);
 
     @GET(ApiContract.Page.RESULTS)
-    Observable<ArrayList<Result>> getResult(@Path(ApiContract.Params.ID) int id,
-                                            @Query(ApiContract.Params.PAGE) int page);
+    Observable<ArrayList<Result>> getResult(@Path(ApiContract.Params.ID) int id);
+
+    @GET(ApiContract.Page.CALENDAR)
+    Observable<ArrayList<Race>> getCalendar(@Query(ApiContract.Params.PAGE) int page);
+
+    @GET(ApiContract.Page.CLASSEMENT)
+    Observable<ArrayList<Classement>> getClassement();
 }

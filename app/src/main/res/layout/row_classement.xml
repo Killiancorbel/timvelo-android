@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="2dp"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_padding_size_medium"
+        >
+        <TextView
+            android:id="@+id/classement_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            tools:text="1"
+            />
+        <TextView
+            android:id="@+id/classement_rider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_padding_size_medium"
+            android:layout_weight="1"
+            tools:text="Greg Van Avermaet"
+            />
+        <TextView
+            android:id="@+id/classement_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            tools:text="BMC"
+            />
+    </LinearLayout>
+</android.support.v7.widget.CardView>
